@@ -16,5 +16,5 @@
 2. i will control the flow of the pull requests to give mohsens
 3. try commiting changes whenever you can
 3. these mini-projects should be finished by today in the meeting or atleast 60% and the rest shall be finished by tmw
-4. punishments will be given to those who does not finish their work :)
+4. punishments will be given to those who does not finish their work >:)
 
