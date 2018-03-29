@@ -1,7 +1,8 @@
 # We-Talk-Alot
-dedicated for the projects committee
+
 <br>
-``` Rules are simple ```
+lets do something fun in our meetings ``` Rules are simple ```
+<br>
 1. each bunch of members see their given task
 2. each bunch will commit their work according to the given task in each .md file
 3. individual commits to edit the .md files will not be counted
