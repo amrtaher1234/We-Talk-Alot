@@ -1,11 +1,7 @@
 ``` description ```
 <p>continue finishing the task and handle the full screen issue that exsisted before with the help of kamal's function</p>
 
-``` data to be handeled ```
 
-1. there are two tables, users and problems
-2. problems contain data about each problem/text/id/etc.., check its structure 
-3. users is linked to another user database by its id and contains score/email/etc..
 
 
 ``` what to implement ```
