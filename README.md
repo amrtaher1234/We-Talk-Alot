@@ -1,7 +1,8 @@
 # We-Talk-Alot
 
 <br>
-lets do something fun in our meetings ``` Rules are simple ```
+lets do something fun in our meetings 
+``` Rules are simple ```
 
 1. each bunch of members see their given task
 2. each bunch will commit their work according to the given task in each .md file
