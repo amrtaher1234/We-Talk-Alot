@@ -9,3 +9,10 @@
 4. a mohsen shall be given to each team member on each commit made
 5. minimum 10 mohsens per team to get the mega package (5 extra mohsens)
 6. branching and merging to the main repo will make the team gain extra 5 mohsens
+
+
+``` some notes ```
+1. forking shall be used, to make a change to the repo you have to fork->apply changes->pull request
+2. i will control the flow of the pull requests to give mohsens
+3. these mini-projects should be finished by today in the meeting or atleast 60% and the rest shall be finished by tmw
+4. punishments will be given to those who does not finish their work :)
