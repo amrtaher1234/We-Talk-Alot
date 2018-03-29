@@ -17,6 +17,7 @@
 3. try commiting changes whenever you can
 3. these mini-projects should be finished by today in the meeting or atleast 60% and the rest shall be finished by tmw
 4. punishments will be given to those who does not finish their work :)
-[angular](https://github.com/Kamalc/We-Talk-Alot/blob/master/mds%20files/angular-connet.md)
-[veteran](https://github.com/Kamalc/We-Talk-Alot/blob/master/mds%20files/git-veteran.md)
-[maze](https://github.com/Kamalc/We-Talk-Alot/blob/master/mds%20files/maze-runner-go.md)
+
+<br> [angular](https://github.com/amrtaher1234/We-Talk-Alot/blob/master/mds%20files/angular-connet.md) </br>
+<br>[veteran](https://github.com/amrtaher1234/We-Talk-Alot/blob/master/mds%20files/git-veteran.md) </br>
+<br>[maze](https://github.com/amrtaher1234/We-Talk-Alot/blob/master/mds%20files/maze-runner-go.md) </br>
