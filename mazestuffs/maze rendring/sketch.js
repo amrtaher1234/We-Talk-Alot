@@ -15,6 +15,33 @@ function setup()
 
 function draw() 
 {
+  clear();
+  background(25,255,255);
+  //movabletank.move();
+  drawSprites();
+
+
+
+  if(movabletank.v_step_list.length >0)
+  {
+
+    try{
+    if (movabletank.pos_marker<movabletank.v_step_list.length)
+    {
+    movabletank.tank.moveToPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y );
+    }
+  if (movabletank.tank.reachedPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y))
+  {
+    movabletank.pos_marker++; 
+  }
+}
+catch
+{
+  
+}
+  }
+
+
 }
 class StartEnd
 {
@@ -83,34 +110,35 @@ class movs
     this.tank.setTankFriction(0.001); 
     this.y=this.inity;
     this.x-this.initx;
-    var v_step_horizontal = createVector(this.stepwidth, 0);
-    var v_step_vertical   = createVector(0,this.stephight);
-    var v_temp            = createVector(this.initx,this.inity);
+    this.v_step_horizontal = createVector(this.stepwidth, 0);
+    this.v_step_vertical   = createVector(0,this.stephight);
+    this.v_temp            = createVector(this.initx,this.inity);
     this.v_step_list=[];
+    this.pos_marker =0; 
   }
   //function 
   movup()
   { 
     this.v_temp.sub(this.v_step_vertical);
-    this.v_step_list.push(this.v_temp);
+    this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
   }
   //function 
   movdown()
   {
     this.v_temp.add(this.v_step_vertical);
-    this.v_step_list.push(this.v_temp);
+    this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
   }
   // function 
   movright()
   {
     this.v_temp.add(this.v_step_horizontal);
-    this.v_step_list.push(this.v_temp); 
+    this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
   }
   //function 4
   movleft ()
   {
     this.v_temp.sub(this.v_step_horizontal);
-    this.v_step_list.push(this.v_temp); 
+    this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
   }
   
 /*  move()

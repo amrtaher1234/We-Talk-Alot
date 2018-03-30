@@ -132,9 +132,9 @@ class VisualTank
             }
         
     }
-   reachedPoint(xPoint,yPoint)
+   reachedPoint(xPoint,yPoint) // TAKEEEEEEEE CARE I CHANGED THIS HERE...I DID NOT CHANGE IT IN THE ORIGINAL CODE, I BLEIEVE THIS IS BUG!!..........
    {
-        var d = dist(this.x,this.y,xPoint,yPoint)
+        var d = dist(this.Body.position.x,this.Body.position.y,xPoint,yPoint)
         if(d < 4){
             return true;
         }
