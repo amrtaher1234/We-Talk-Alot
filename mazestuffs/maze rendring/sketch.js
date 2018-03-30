@@ -84,6 +84,7 @@ class movs
     this.initx=this.stepwidth/2;
     this.inity=this.stephight/2;
     this.tank=new VisualTank(this.initx,this.inity,"assets/tankbody.png","assets/canon.png");
+    this.tank.setTankFriction(0.001); 
     this.y=this.inity;
     this.x-this.initx;
     this.b_moveup=0;
@@ -91,10 +92,10 @@ class movs
     this.b_moveleft=0;
     this.b_moveright=0; 
   }
-  moveup(){this.moveup=1;console.log("Utrue");}
-  movedown(){this.movedown=1;console.log("Dtrue");}
-  moveleft(){this.moveleft=1;console.log("Ltrue");}
-  moveright(){this.moveright=1;console.log("Rtrue");}
+  moveup(){this.b_moveup=1;console.log("Utrue");}
+  movedown(){this.b_movedown=1;console.log("Dtrue");}
+  moveleft(){this.b_moveleft=1;console.log("Ltrue");}
+  moveright(){this.b_moveright=1;console.log("Rtrue");}
   
   //function 
   movup()
@@ -120,8 +121,9 @@ class movs
      loadImage("assets/game_over.png");
     else
     { 
-      this.y=this.tank.Body.position.y+this.stephight;
-      this.tank.moveToPoint(this.tank.x,this.y);
+      this.y=this.tank.Body.position.y+100 ;//+this.stephight;
+      this.x=this.tank.x;
+      this.tank.moveToPoint(this.x,this.y);
     }
     this.tank.stopMovement(this.x,this.tank.y);
     this.b_movedown=0;
