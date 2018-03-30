@@ -15,10 +15,6 @@ function setup()
 
 function draw() 
 {
-  clear();
-  background(25,255,255);
-  movabletank.move();
-  drawSprites();
 }
 class StartEnd
 {
@@ -87,75 +83,37 @@ class movs
     this.tank.setTankFriction(0.001); 
     this.y=this.inity;
     this.x-this.initx;
-    this.b_moveup=0;
-    this.b_movedown=0;
-    this.b_moveleft=0;
-    this.b_moveright=0; 
+    var v_step_horizontal = createVector(this.stepwidth, 0);
+    var v_step_vertical   = createVector(0,this.stephight);
+    var v_temp            = createVector(this.initx,this.inity);
+    this.v_step_list=[];
   }
-  moveup(){this.b_moveup=1;console.log("Utrue");}
-  movedown(){this.b_movedown=1;console.log("Dtrue");}
-  moveleft(){this.b_moveleft=1;console.log("Ltrue");}
-  moveright(){this.b_moveright=1;console.log("Rtrue");}
-  
   //function 
   movup()
-  {
-    if (this.tank.y<0)//add the thing that takes you back to lvl 1 here 
-      loadImage("assets/game_over.png");
-    else
-    { 
-      this.y=this.tank.y-this.stephight;
-      console.log(this.y); 
-      this.x=this.tank.x;
-      console.log(this.x); 
-      this.tank.moveToPoint(this.x,this.y);
-      console.log("Enters 1st else");
-    }  
-    this.tank.stopMovement(this.x,this.tank.y);
-    this.b_moveup=0;
+  { 
+    this.v_temp.sub(this.v_step_vertical);
+    this.v_step_list.push(this.v_temp);
   }
   //function 
   movdown()
   {
-    if (this.tank.y> canvas.height)
-     loadImage("assets/game_over.png");
-    else
-    { 
-      this.y=this.tank.Body.position.y+100 ;//+this.stephight;
-      this.x=this.tank.x;
-      this.tank.moveToPoint(this.x,this.y);
-    }
-    this.tank.stopMovement(this.x,this.tank.y);
-    this.b_movedown=0;
+    this.v_temp.add(this.v_step_vertical);
+    this.v_step_list.push(this.v_temp);
   }
   // function 
   movright()
   {
-      if (this.tank.x> canvas.width)
-       loadImage("assets/game_over.png");
-      else
-      {
-        this.x=this.tank.x+this.stepwidth;
-        this.tank.moveToPoint(this.x,this.tank.y);
-      } 
-      this.tank.stopMovement(this.x,this.tank.y);
-      this.b_moveright=0;
+    this.v_temp.add(this.v_step_horizontal);
+    this.v_step_list.push(this.v_temp); 
   }
   //function 4
   movleft ()
   {
-    if (this.tank.x< 0)
-      loadImage("assets/game_over.png");
-    else
-    {
-      this.x=this.tank.x-this.stepwidth;
-      this.tank.moveToPoint(this.x,this.tank.y);
-    }
-    this.tank.stopMovement(this.x,this.tank.y);
-    this.b_moveleft=0;
+    this.v_temp.sub(this.v_step_horizontal);
+    this.v_step_list.push(this.v_temp); 
   }
   
-  move()
+/*  move()
  {
     if(this.b_moveup)
      this.movup();
@@ -165,7 +123,7 @@ class movs
       this.movleft();
     else if (this.b_moveright)
       this.movright();
- }
+ }*/
   
 }
 
