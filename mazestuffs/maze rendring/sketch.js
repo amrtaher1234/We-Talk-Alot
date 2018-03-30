@@ -22,9 +22,7 @@ function draw()
 
 
 
-  if(movabletank.v_step_list.length >0)
-  {
-
+ 
     try{
     if (movabletank.pos_marker<movabletank.v_step_list.length)
     {
@@ -32,14 +30,15 @@ function draw()
     }
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y))
   {
-    movabletank.pos_marker++; 
+   movabletank.tank.setTankFriction(1); 
+   movabletank.pos_marker++;  
   }
 }
 catch
 {
   
 }
-  }
+  
 
 
 }
@@ -121,24 +120,32 @@ class movs
   { 
     this.v_temp.sub(this.v_step_vertical);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
+    movabletank.tank.setTankFriction(0); 
+    
   }
   //function 
   movdown()
   {
     this.v_temp.add(this.v_step_vertical);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
+    movabletank.tank.setTankFriction(0); 
+    
   }
   // function 
   movright()
   {
     this.v_temp.add(this.v_step_horizontal);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
+    movabletank.tank.setTankFriction(0); 
+    
   }
   //function 4
   movleft ()
   {
     this.v_temp.sub(this.v_step_horizontal);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
+    movabletank.tank.setTankFriction(0);     
+    
   }
   
 /*  move()
