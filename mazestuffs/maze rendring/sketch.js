@@ -22,22 +22,24 @@ function draw()
 
 
 
- 
-    try{
+ if (movabletank.pos_marker <= movabletank.v_step_list.length -1 )
+ {
+   
     if (movabletank.pos_marker<movabletank.v_step_list.length)
     {
     movabletank.tank.moveToPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y );
     }
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y))
   {
-   movabletank.tank.setTankFriction(1); 
+   //movabletank.tank.setTankFriction(1); 
    movabletank.pos_marker++;  
   }
-}
-catch
-{
-  
-}
+  var endlist = movabletank.v_step_list.length-1; 
+  if (movabletank.tank.reachedPoint(movabletank.v_step_list[endlist].x , movabletank.v_step_list[endlist].y))
+  {
+   movabletank.tank.setTankFriction(1);  
+  }
+ }
   
 
 
