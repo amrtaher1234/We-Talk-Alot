@@ -8,7 +8,7 @@ function setup()
   createCanvas(windowWidth,windowHeight);
   var scale=2,stepwidth=3,stephight=2,blocksize=16;  
   maze_text = readTextFile("output.txt");
-  drawmaze(maze_text,scale,stepwidth,stephight);
+  drawmaze(maze_text,scale,stepwidth,stephight,1);
   movabletank=new movs(scale,stephight,stepwidth,blocksize);
   //movabletank.tank.attractBoolean = 1;
   console.log("width="+width + "\nheight=" +height +"\nblock size=" + blocksize); 
@@ -173,13 +173,15 @@ class movs
 //a step is a bunch of block 
 //block size is the size of each section of those little blocks 
 ///_________________________________________________
-function drawmaze(maze,scale,stephight,stepwidth)
+function drawmaze(maze,scale,stephight,stepwidth,mazenumber)
 { 
   blocksize=scale*15;
   var xpos=blocksize/2,ypos=blocksize/2;
   var brick,currnt_element;
+  var rownumber=mazenumber*11;
+  var row_end=rownumber+10;
   //row loop
-  for(var row=0;row<10;row++)
+  for(var row=rownumber;row<row_end;row++)
   {
     //colomn loop 
     for(var colomn=0;colomn<12;colomn++)
@@ -190,7 +192,7 @@ function drawmaze(maze,scale,stephight,stepwidth)
         
       
         // start block is special XD , so is the end block
-      if (row==0 && colomn==0|| row==9 && colomn==9)
+      if (row==rownumber && colomn==0|| row==row_end-1 && colomn==9)
       {
         //loop on said block's rows and colomns and add them 
         for(var inblock_row=0;inblock_row<stepwidth;inblock_row++)
