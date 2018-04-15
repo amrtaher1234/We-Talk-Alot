@@ -2,10 +2,11 @@
 //move the mouse, the sprite responds to overlapings, collision, 
 //and displaces another sprite
 var movabletank;
+var maze_text; 
 function setup()
 {
   createCanvas(windowWidth,windowHeight);
-  var maze_text,scale=2.25,stepwidth=3,stephight=2,blocksize=16;  
+  var scale=2,stepwidth=3,stephight=2,blocksize=16;  
   maze_text = readTextFile("output.txt");
   drawmaze(maze_text,scale,stepwidth,stephight);
   movabletank=new movs(scale,stephight,stepwidth,blocksize);
@@ -181,10 +182,10 @@ function drawmaze(maze,scale,stephight,stepwidth)
   for(var row=0;row<10;row++)
   {
     //colomn loop 
-    for(var colomn=0;colomn<11;colomn++)
+    for(var colomn=0;colomn<12;colomn++)
     {
       //charecter for this row in the array
-      currnt_element = findelement(maze,11,row,colomn);
+      currnt_element = findelement(maze,12,row,colomn);
       var currentX=xpos,currentY=ypos;
         
       
@@ -274,11 +275,15 @@ function readTextFile(file)
              if(rawFile.status === 200 || rawFile.status == 0)
              {
                  allText = rawFile.responseText;
-                 alert(allText);
+                 //alert(allText);
              }
          }
      }
      rawFile.send(null);
+     console.log(allText);
+     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");  
+     console.log(allText[0]); 
+     console.log(allText[10]); 
      return allText; 
 }
 /*
