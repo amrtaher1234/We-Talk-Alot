@@ -3,12 +3,14 @@
 //and displaces another sprite
 var movabletank;
 var maze_text; 
+var blocks_array; 
 function setup()
 {
+  blocks_array= new Group();
   createCanvas(windowWidth,windowHeight);
-  var scale=2,stepwidth=3,stephight=2,blocksize=16;  
+  var scale=3.2,stepwidth=1,stephight=1,blocksize=16;  
   maze_text = readTextFile("output.txt");
-  drawmaze(maze_text,scale,stepwidth,stephight,1);
+  drawmaze(maze_text,scale,stepwidth,stephight,0);
   movabletank=new movs(scale,stephight,stepwidth,blocksize);
   //movabletank.tank.attractBoolean = 1;
   console.log("width="+width + "\nheight=" +height +"\nblock size=" + blocksize); 
@@ -17,6 +19,8 @@ function setup()
 function draw() 
 {
   clear();
+  fill(120,2,2); 
+ 
   background(25,255,255);
   //movabletank.move();
   drawSprites();
@@ -29,6 +33,7 @@ function draw()
     if (movabletank.pos_marker<movabletank.v_step_list.length)
     {
     movabletank.tank.moveToPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y );
+    console.log(movabletank.tank.Body.position.x , movabletank.tank.Body.position.y); 
     }
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y))
   {
@@ -39,10 +44,37 @@ function draw()
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[endlist].x , movabletank.v_step_list[endlist].y))
   {
    movabletank.tank.setTankFriction(1);  
+   movabletank.tank.Body.position = movabletank.v_step_list[endlist]; 
+   console.log( "this is just the final "  ,movabletank.tank.Body.position.x , movabletank.tank.Body.position.y); 
+   
+
   }
  }
-  
-
+  if (movabletank.tank.Body.overlap(blocks_array))
+  {
+    text("Game is over", width/2, height/2, 20, 20); 
+    // Game over logic  should be encapsulated here.
+     
+  }
+ if (mouseIsPressed)
+ {
+   for (i =0; i<5; i++)
+{
+movabletank.movdown(); 
+}
+for (var i =0; i<20 ; i++)
+{
+var temp = random(0, 100); 
+if (temp<30)
+{
+  movabletank.movdown(); 
+}
+if (temp>60)
+{
+  movabletank.movright(); 
+}
+}
+ }
 
 }
 class StartEnd
@@ -88,9 +120,10 @@ class Path
   }
   drawbrick()
   {
-     this.blockssprite = createSprite(this.xpos , this.ypos);
+     this.blockssprite = createSprite(this.xpos , this.ypos );
      this.blockssprite.addImage(loadImage("assets/hollow middle.png"));
      this.blockssprite.scale=this.blockscale*.125;
+     console.log( "BLOOOOOOOOOOOCK WIDTH" , this.blockssprite.height); 
   }
 }
 
@@ -109,9 +142,10 @@ class movs
     this.initx=this.stepwidth/2;
     this.inity=this.stephight/2;
     this.tank=new VisualTank(this.initx,this.inity,"assets/tankbody.png","assets/canon.png");
+    this.tank.setTotalScale(0.44); 
     this.tank.setTankFriction(0.001); 
-    this.y=this.inity;
-    this.x-this.initx;
+    //this.tank.setTotalScale(0.58); 
+
     this.v_step_horizontal = createVector(this.stepwidth, 0);
     this.v_step_vertical   = createVector(0,this.stephight);
     this.v_temp            = createVector(this.initx,this.inity);
@@ -165,6 +199,7 @@ class movs
   
 }
 
+
 ///_________________________________________________
 //maze     : 1d with the maze charecters 
 //scale    : block sprite scale factor
@@ -173,9 +208,9 @@ class movs
 //a step is a bunch of block 
 //block size is the size of each section of those little blocks 
 ///_________________________________________________
-function drawmaze(maze,scale,stephight,stepwidth,mazenumber)
+function drawmaze(maze,scale,stepwidth,stephight,mazenumber)
 { 
-  blocksize=scale*15;
+  blocksize=scale*16;
   var xpos=blocksize/2,ypos=blocksize/2;
   var brick,currnt_element;
   var rownumber=mazenumber*11;
@@ -195,33 +230,44 @@ function drawmaze(maze,scale,stephight,stepwidth,mazenumber)
       if (row==rownumber && colomn==0|| row==row_end-1 && colomn==9)
       {
         //loop on said block's rows and colomns and add them 
-        for(var inblock_row=0;inblock_row<stepwidth;inblock_row++)
+        for(var inblock_row=0;inblock_row<stephight;inblock_row++)
         {
-          xpos=currentX;
-          for(var inblock_colomn=0;inblock_colomn<stephight;inblock_colomn++)
+          xpos=currentX; // 1st 16  .. 
+          for(var inblock_colomn=0;inblock_colomn<stepwidth;inblock_colomn++)
           {
            Markbrick=new StartEnd(xpos,ypos,scale);
            Markbrick.drawbrick();
            xpos+=blocksize;
           }  
+
+          if (inblock_row +1>= stephight)
+          {
+            continue; 
+          }
           ypos+=blocksize;
           
         }
         ypos=currentY;
       }
 
-      else if (currnt_element=='#')
+    else if (currnt_element=='#')
       {
         //loop on said block's rows and colomns and add them 
-        for(var inblock_row=0;inblock_row<stepwidth;inblock_row++)
+        for(var inblock_row=0;inblock_row<stephight;inblock_row++)
         {
           xpos=currentX;
-          for(var inblock_colomn=0;inblock_colomn<stephight;inblock_colomn++)
+          for(var inblock_colomn=0;inblock_colomn<stepwidth;inblock_colomn++)
           {
            brick=new Brick(xpos,ypos,scale);
            brick.drawbrick();
+           blocks_array.add(brick.blockssprite); 
            xpos+=blocksize;
           }  
+          if(inblock_row +1 >= stephight)
+          {
+            console.log("testing inblock continue"); 
+            continue; 
+          }
           ypos+=blocksize;
           
         }
@@ -231,15 +277,20 @@ function drawmaze(maze,scale,stephight,stepwidth,mazenumber)
       
       else if (currnt_element=='.')
       {
-        for(var inblock_row=0;inblock_row<stepwidth;inblock_row++)
+        for(var inblock_row=0;inblock_row<stephight;inblock_row++)
         {
           xpos=currentX;
-          for(var inblock_colomn=0;inblock_colomn<stephight;inblock_colomn++)
+          for(var inblock_colomn=0;inblock_colomn<stepwidth;inblock_colomn++)
           {
             path=new Path(xpos,ypos,scale);
             path.drawbrick();
             xpos+=blocksize;
           }  
+          if (inblock_row + 1 >= stephight)
+          {
+            console.log("testing inblock continue 2"); 
+            continue; 
+          }
           ypos+=blocksize;
           
         }
@@ -256,7 +307,7 @@ function drawmaze(maze,scale,stephight,stepwidth,mazenumber)
       //xpos+=blocksize/4;// remove this line to remove the spaces between each step 
     }
     xpos=blocksize/2;
-    ypos+=blocksize*(stephight-1);
+    ypos+=blocksize*(stephight);
   }   
 }
 
@@ -282,10 +333,6 @@ function readTextFile(file)
          }
      }
      rawFile.send(null);
-     console.log(allText);
-     console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");  
-     console.log(allText[0]); 
-     console.log(allText[10]); 
      return allText; 
 }
 /*
@@ -325,3 +372,25 @@ function drawmaze(maze)
   }   
 }
 */
+class Code {
+    constructor()
+    {
+        this.code = ""; 
+
+    }
+    evaluate()
+    {
+        try
+        {
+        eval(this.code); 
+        }
+        catch{
+            console.log("error in code written");
+        }
+        this.code=""; 
+    }
+    addCode(str)
+    {
+        this.code+=str; 
+    }
+}
