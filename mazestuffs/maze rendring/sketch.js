@@ -22,6 +22,7 @@ function draw()
   fill(120,2,2); 
  
   background(25,255,255);
+  //eval("movabletank.movright(); "); 
   //movabletank.move();
   drawSprites();
 
@@ -44,9 +45,9 @@ function draw()
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[endlist].x , movabletank.v_step_list[endlist].y))
   {
    movabletank.tank.setTankFriction(1);  
-   movabletank.tank.Body.position = movabletank.v_step_list[endlist]; 
-   console.log( "this is just the final "  ,movabletank.tank.Body.position.x , movabletank.tank.Body.position.y); 
-   
+  //  movabletank.tank.Body.position = movabletank.v_step_list[endlist]; 
+  //  console.log( "this is just the final "  ,movabletank.tank.Body.position.x , movabletank.tank.Body.position.y); 
+  // this was to set the tank position to the right position 
 
   }
  }
@@ -56,25 +57,14 @@ function draw()
     // Game over logic  should be encapsulated here.
      
   }
- if (mouseIsPressed)
- {
-   for (i =0; i<5; i++)
-{
-movabletank.movdown(); 
-}
-for (var i =0; i<20 ; i++)
-{
-var temp = random(0, 100); 
-if (temp<30)
-{
-  movabletank.movdown(); 
-}
-if (temp>60)
-{
-  movabletank.movright(); 
-}
-}
- }
+  for (var i=0; i<blocks_array.length; i++)
+  {
+    if (movabletank.tank.Body.overlap(blocks_array[i]))
+    {
+      text("Game Over Loop" , width/2 , height/2 , 100 , 100); 
+    }
+  }
+ 
 
 }
 class StartEnd
@@ -393,4 +383,10 @@ class Code {
     {
         this.code+=str; 
     }
+}
+function btnpress()
+{
+  var str = document.getElementById("in").value; 
+
+  eval(str); 
 }
