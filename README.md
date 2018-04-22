@@ -1,7 +1,7 @@
 # We-Talk-Alot
 
 
-``` Rules are simple ```
+``` Rules are simple ```-
 
 1. each bunch of members see their given task
 2. each bunch will commit their work according to the given task in each .md file

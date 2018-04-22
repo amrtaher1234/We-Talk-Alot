@@ -7,15 +7,18 @@ var blocks_array;
 function setup()
 {
   blocks_array= new Group();
-  createCanvas(windowWidth,windowHeight);
+  var cnv = createCanvas(windowWidth,windowHeight);
   var scale=3.2,stepwidth=1,stephight=1,blocksize=16;  
   maze_text = readTextFile("output.txt");
-  drawmaze(maze_text,scale,stepwidth,stephight,0);
+  drawmaze(maze_text,scale,stepwidth,stephight,Math.floor(random(0, 5)));
   movabletank=new movs(scale,stephight,stepwidth,blocksize);
   //movabletank.tank.attractBoolean = 1;
   console.log("width="+width + "\nheight=" +height +"\nblock size=" + blocksize); 
 }
-
+// function windowResized()
+// {
+//   createCanvas(windowWidth , windowHeight); 
+// }
 function draw() 
 {
   clear();
@@ -34,11 +37,9 @@ function draw()
     if (movabletank.pos_marker<movabletank.v_step_list.length)
     {
     movabletank.tank.moveToPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y );
-    console.log(movabletank.tank.Body.position.x , movabletank.tank.Body.position.y); 
     }
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y))
   {
-   //movabletank.tank.setTankFriction(1); 
    movabletank.pos_marker++;  
   }
   var endlist = movabletank.v_step_list.length-1; 
@@ -51,17 +52,15 @@ function draw()
 
   }
  }
-  if (movabletank.tank.Body.overlap(blocks_array))
-  {
-    text("Game is over", width/2, height/2, 20, 20); 
-    // Game over logic  should be encapsulated here.
-     
-  }
+
   for (var i=0; i<blocks_array.length; i++)
   {
     if (movabletank.tank.Body.overlap(blocks_array[i]))
     {
       text("Game Over Loop" , width/2 , height/2 , 100 , 100); 
+      movabletank.tank.Body.collide(blocks_array[i]); 
+      //movabletank.tank.canon.canonSprite.collide(blocks_array[i]); 
+      noLoop();
     }
   }
  
@@ -132,8 +131,9 @@ class movs
     this.initx=this.stepwidth/2;
     this.inity=this.stephight/2;
     this.tank=new VisualTank(this.initx,this.inity,"assets/tankbody.png","assets/canon.png");
-    this.tank.setTotalScale(0.44); 
+    this.tank.setTotalScale(0.66); 
     this.tank.setTankFriction(0.001); 
+    this.steps_dic = {}; 
     //this.tank.setTotalScale(0.58); 
 
     this.v_step_horizontal = createVector(this.stepwidth, 0);
@@ -148,7 +148,11 @@ class movs
     this.v_temp.sub(this.v_step_vertical);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
     movabletank.tank.setTankFriction(0); 
-    
+    if (this.steps_dic[this.v_temp] == 1)
+    {
+      console.log("CHECKEDDDDD"); 
+    }
+    this.steps_dic[this.v_temp] =1; 
   }
   //function 
   movdown()
@@ -156,6 +160,12 @@ class movs
     this.v_temp.add(this.v_step_vertical);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
     movabletank.tank.setTankFriction(0); 
+    if (this.steps_dic[this.v_temp] == 1)
+    {
+      console.log("CHECKEDDDDD"); 
+    }
+    this.steps_dic[this.v_temp] =1; 
+    
     
   }
   // function 
@@ -164,6 +174,12 @@ class movs
     this.v_temp.add(this.v_step_horizontal);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
     movabletank.tank.setTankFriction(0); 
+    if (this.steps_dic[this.v_temp] == 1)
+    {
+      console.log("CHECKEDDDDD"); 
+    }
+    this.steps_dic[this.v_temp] =1; 
+    
     
   }
   //function 4
@@ -172,7 +188,11 @@ class movs
     this.v_temp.sub(this.v_step_horizontal);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
     movabletank.tank.setTankFriction(0);     
-    
+    if (this.steps_dic[this.v_temp] == 1)
+    {
+      console.log("CHECKEDDDDD"); 
+    }
+    this.steps_dic[this.v_temp] =1; 
   }
   
 /*  move()
