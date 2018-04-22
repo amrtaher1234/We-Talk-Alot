@@ -1,6 +1,4 @@
-//Collision detection and resolution
-//move the mouse, the sprite responds to overlapings, collision, 
-//and displaces another sprite
+
 var movabletank;
 var maze_text; 
 var blocks_array; 
@@ -8,25 +6,18 @@ function setup()
 {
   blocks_array= new Group();
   var cnv = createCanvas(windowWidth,windowHeight);
-  var scale=3.2,stepwidth=1,stephight=1,blocksize=16;  
+  var scale=3.5,stepwidth=1,stephight=1,blocksize=16;  
   maze_text = readTextFile("output.txt");
   drawmaze(maze_text,scale,stepwidth,stephight,Math.floor(random(0, 5)));
   movabletank=new movs(scale,stephight,stepwidth,blocksize);
-  //movabletank.tank.attractBoolean = 1;
   console.log("width="+width + "\nheight=" +height +"\nblock size=" + blocksize); 
 }
-// function windowResized()
-// {
-//   createCanvas(windowWidth , windowHeight); 
-// }
 function draw() 
 {
   clear();
   fill(120,2,2); 
  
   background(25,255,255);
-  //eval("movabletank.movright(); "); 
-  //movabletank.move();
   drawSprites();
 
 
@@ -46,10 +37,6 @@ function draw()
   if (movabletank.tank.reachedPoint(movabletank.v_step_list[endlist].x , movabletank.v_step_list[endlist].y))
   {
    movabletank.tank.setTankFriction(1);  
-  //  movabletank.tank.Body.position = movabletank.v_step_list[endlist]; 
-  //  console.log( "this is just the final "  ,movabletank.tank.Body.position.x , movabletank.tank.Body.position.y); 
-  // this was to set the tank position to the right position 
-
   }
  }
 
@@ -111,8 +98,7 @@ class Path
   {
      this.blockssprite = createSprite(this.xpos , this.ypos );
      this.blockssprite.addImage(loadImage("assets/hollow middle.png"));
-     this.blockssprite.scale=this.blockscale*.125;
-     console.log( "BLOOOOOOOOOOOCK WIDTH" , this.blockssprite.height); 
+     this.blockssprite.scale=this.blockscale*.125;9
   }
 }
 
@@ -134,15 +120,12 @@ class movs
     this.tank.setTotalScale(0.66); 
     this.tank.setTankFriction(0.001); 
     this.steps_dic = {}; 
-    //this.tank.setTotalScale(0.58); 
-
     this.v_step_horizontal = createVector(this.stepwidth, 0);
     this.v_step_vertical   = createVector(0,this.stephight);
     this.v_temp            = createVector(this.initx,this.inity);
     this.v_step_list=[];
     this.pos_marker =0; 
-  }
-  //function 
+  } 
   movup()
   { 
     this.v_temp.sub(this.v_step_vertical);
@@ -154,7 +137,6 @@ class movs
     }
     this.steps_dic[this.v_temp] =1; 
   }
-  //function 
   movdown()
   {
     this.v_temp.add(this.v_step_vertical);
@@ -168,7 +150,6 @@ class movs
     
     
   }
-  // function 
   movright()
   {
     this.v_temp.add(this.v_step_horizontal);
@@ -182,7 +163,6 @@ class movs
     
     
   }
-  //function 4
   movleft ()
   {
     this.v_temp.sub(this.v_step_horizontal);
@@ -194,18 +174,6 @@ class movs
     }
     this.steps_dic[this.v_temp] =1; 
   }
-  
-/*  move()
- {
-    if(this.b_moveup)
-     this.movup();
-    else if (this.b_movedown)
-      this.movdown();
-    else if (this.b_moveleft)
-      this.movleft();
-    else if (this.b_moveright)
-      this.movright();
- }*/
   
 }
 
@@ -345,43 +313,7 @@ function readTextFile(file)
      rawFile.send(null);
      return allText; 
 }
-/*
-function fill2darray(_1d,_2d,rownum)
-{
-  for(var i=0;i<rownum;i++)
-  {
-    var colnum=0;
-    for(var j=0;j<rownum;j++)
-    {
-      _2d[i][j]==_1d[rownum*colnum+j]
-      colnum+=1;
-    }
-    colnum=0;
-  }   
 
-}
-
-function drawmaze(maze)
-{ 
-  var xpos=0,ypos=0;
-  var brick;
-  for(var i=0;i<10;i++)
-  {
-    for(var j=0;j<10;j++)
-    {
-      if (maze[i][j]=='#')
-      {
-        brick=new Brick(xpos,ypos);
-        brick.drawbrick();
-      }
-
-      xpos+=15;
-    }
-    xpos=0;
-    ypos+=15;
-  }   
-}
-*/
 class Code {
     constructor()
     {
