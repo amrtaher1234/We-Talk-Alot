@@ -252,10 +252,10 @@ function drawmaze(maze,scale,stepwidth,stephight,mazenumber)
   for(var row=rownumber;row<row_end;row++)
   {
     //colomn loop 
-    for(var colomn=0;colomn<12;colomn++)
+    for(var colomn=0;colomn<11;colomn++)
     {
       //charecter for this row in the array
-      currnt_element = findelement(maze,12,row,colomn);
+      currnt_element = findelement(maze,11,row,colomn);
 
       if (colomn<10 && row<10)
         maze_array[row][colomn] = currnt_element; 
