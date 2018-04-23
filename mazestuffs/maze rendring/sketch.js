@@ -1,16 +1,24 @@
 
-var movabletank;
+var toty;
 var maze_text; 
 var blocks_array; 
+
+var maze_array ;  
+
 function setup()
 {
+  maze_array= new Array(10);
+  for (var i=0; i<10; i++)
+{
+  maze_array[i] = new Array(10); 
+}
   blocks_array= new Group();
-  var cnv = createCanvas(windowWidth,windowHeight);
-  var scale=3.5,stepwidth=1,stephight=1,blocksize=16;  
+  var cnv = createCanvas(windowWidth,600);
+  var scale=3.7,stepwidth=1,stephight=1,blocksize=16;  
   maze_text = readTextFile("output.txt");
-  drawmaze(maze_text,scale,stepwidth,stephight,Math.floor(random(0, 5)));
-  movabletank=new movs(scale,stephight,stepwidth,blocksize);
-  console.log("width="+width + "\nheight=" +height +"\nblock size=" + blocksize); 
+  drawmaze(maze_text,scale,stepwidth,stephight,0); // removed the random, add a set 0 value to the draw maze late.
+  console.log(maze_array); 
+  toty=new movs(scale,stephight,stepwidth,blocksize); 
 }
 function draw() 
 {
@@ -22,36 +30,36 @@ function draw()
 
 
 
- if (movabletank.pos_marker <= movabletank.v_step_list.length -1 )
+ if (toty.pos_marker <= toty.v_step_list.length -1 )
  {
    
-    if (movabletank.pos_marker<movabletank.v_step_list.length)
+    if (toty.pos_marker<toty.v_step_list.length)
     {
-    movabletank.tank.moveToPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y );
+    toty.tank.moveToPoint(toty.v_step_list[toty.pos_marker].x ,toty.v_step_list[toty.pos_marker].y );
     }
-  if (movabletank.tank.reachedPoint(movabletank.v_step_list[movabletank.pos_marker].x ,movabletank.v_step_list[movabletank.pos_marker].y))
+  if (toty.tank.reachedPoint(toty.v_step_list[toty.pos_marker].x ,toty.v_step_list[toty.pos_marker].y))
   {
-   movabletank.pos_marker++;  
+   toty.pos_marker++;  
   }
-  var endlist = movabletank.v_step_list.length-1; 
-  if (movabletank.tank.reachedPoint(movabletank.v_step_list[endlist].x , movabletank.v_step_list[endlist].y))
+  var endlist = toty.v_step_list.length-1; 
+  if (toty.tank.reachedPoint(toty.v_step_list[endlist].x , toty.v_step_list[endlist].y))
   {
-   movabletank.tank.setTankFriction(1);  
+   toty.tank.setTankFriction(1);  
   }
  }
 
   for (var i=0; i<blocks_array.length; i++)
   {
-    if (movabletank.tank.Body.overlap(blocks_array[i]))
+    if (toty.tank.Body.overlap(blocks_array[i]))
     {
       text("Game Over Loop" , width/2 , height/2 , 100 , 100); 
-      movabletank.tank.Body.collide(blocks_array[i]); 
-      //movabletank.tank.canon.canonSprite.collide(blocks_array[i]); 
+      toty.tank.Body.collide(blocks_array[i]); 
+      //toty.tank.canon.canonSprite.collide(blocks_array[i]); 
       noLoop();
     }
   }
  
-
+ 
 }
 class StartEnd
 {
@@ -98,7 +106,7 @@ class Path
   {
      this.blockssprite = createSprite(this.xpos , this.ypos );
      this.blockssprite.addImage(loadImage("assets/hollow middle.png"));
-     this.blockssprite.scale=this.blockscale*.125;9
+     this.blockssprite.scale=this.blockscale*.125;
   }
 }
 
@@ -112,6 +120,8 @@ class movs
    */
   constructor(scale,stephight,stepwidth,blocksize)
   {
+    this.x_maze = 0; 
+    this.y_maze= 0; 
     this.stephight=blocksize*scale*stephight;
     this.stepwidth=blocksize*scale*stepwidth;
     this.initx=this.stepwidth/2;
@@ -128,23 +138,33 @@ class movs
   } 
   movup()
   { 
+    if (this.y_maze-1<0){
+      return; 
+    }
     this.v_temp.sub(this.v_step_vertical);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
-    movabletank.tank.setTankFriction(0); 
+    toty.tank.setTankFriction(0); 
+    this.y_maze--; 
     if (this.steps_dic[this.v_temp] == 1)
     {
-      console.log("CHECKEDDDDD"); 
+ 
     }
-    this.steps_dic[this.v_temp] =1; 
+    this.steps_dic[this.v_temp] =1;
+  
   }
   movdown()
   {
+    if (this.y_maze+1>9)
+    {
+      return; 
+    }
     this.v_temp.add(this.v_step_vertical);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y));
-    movabletank.tank.setTankFriction(0); 
+    toty.tank.setTankFriction(0); 
+    this.y_maze++; 
     if (this.steps_dic[this.v_temp] == 1)
     {
-      console.log("CHECKEDDDDD"); 
+ 
     }
     this.steps_dic[this.v_temp] =1; 
     
@@ -152,12 +172,14 @@ class movs
   }
   movright()
   {
+    if (this.x_maze+1>9){return;}
     this.v_temp.add(this.v_step_horizontal);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
-    movabletank.tank.setTankFriction(0); 
+    toty.tank.setTankFriction(0); 
+    this.x_maze++; 
     if (this.steps_dic[this.v_temp] == 1)
     {
-      console.log("CHECKEDDDDD"); 
+      
     }
     this.steps_dic[this.v_temp] =1; 
     
@@ -165,16 +187,49 @@ class movs
   }
   movleft ()
   {
+    if(this.x_maze-1<0){return; }
     this.v_temp.sub(this.v_step_horizontal);
     this.v_step_list.push(createVector(this.v_temp.x , this.v_temp.y)); 
-    movabletank.tank.setTankFriction(0);     
+    toty.tank.setTankFriction(0);  
+    this.x_maze--;    
     if (this.steps_dic[this.v_temp] == 1)
     {
-      console.log("CHECKEDDDDD"); 
+      
     }
     this.steps_dic[this.v_temp] =1; 
   }
-  
+  isBlock(check)
+  {
+    if (check=='right')
+    {
+      if  (this.x_maze+1>9 || maze_array[this.y_maze][this.x_maze+1]=='#')
+      {
+        return true; 
+      }
+    }
+    if (check=='left')
+    {
+      if (this.x_maze-1<0 ||maze_array[this.y_maze][this.x_maze-1]=='#')
+      {
+        return true; 
+      }
+    }
+    if (check=='up')
+    {
+      if (this.y_maze-1<0 || maze_array[this.y_maze-1][this.x_maze]=='#')
+      {
+        return true; 
+      }
+    }
+    if (check=='down')
+    {
+      if (this.y_maze+1>9 || maze_array[this.y_maze+1][this.x_maze]=='#')
+      {
+        return true; 
+      }
+    }
+    return false; 
+  }
 }
 
 
@@ -201,6 +256,10 @@ function drawmaze(maze,scale,stepwidth,stephight,mazenumber)
     {
       //charecter for this row in the array
       currnt_element = findelement(maze,12,row,colomn);
+
+      if (colomn<10 && row<10)
+        maze_array[row][colomn] = currnt_element; 
+      
       var currentX=xpos,currentY=ypos;
         
       
@@ -243,7 +302,7 @@ function drawmaze(maze,scale,stepwidth,stephight,mazenumber)
           }  
           if(inblock_row +1 >= stephight)
           {
-            console.log("testing inblock continue"); 
+      
             continue; 
           }
           ypos+=blocksize;
@@ -266,8 +325,7 @@ function drawmaze(maze,scale,stepwidth,stephight,mazenumber)
           }  
           if (inblock_row + 1 >= stephight)
           {
-            console.log("testing inblock continue 2"); 
-            continue; 
+                 continue; 
           }
           ypos+=blocksize;
           
@@ -278,10 +336,10 @@ function drawmaze(maze,scale,stepwidth,stephight,mazenumber)
       }
       else 
       {
-       console.log(currnt_element);
+       
        continue;
       }
-      console.log(currnt_element);
+     
       //xpos+=blocksize/4;// remove this line to remove the spaces between each step 
     }
     xpos=blocksize/2;
@@ -314,31 +372,12 @@ function readTextFile(file)
      return allText; 
 }
 
-class Code {
-    constructor()
-    {
-        this.code = ""; 
-
-    }
-    evaluate()
-    {
-        try
-        {
-        eval(this.code); 
-        }
-        catch{
-            console.log("error in code written");
-        }
-        this.code=""; 
-    }
-    addCode(str)
-    {
-        this.code+=str; 
-    }
-}
 function btnpress()
 {
-  var str = document.getElementById("in").value; 
+  // var str = document.getElementById("in").value; 
 
-  eval(str); 
+  // eval(str); 
+  var editor = ace.edit("editor");
+  eval(editor.getValue());
+  
 }
